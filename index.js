@@ -14,6 +14,76 @@ function gameObject() {
                     blocks: 1,
                     slamDunks: 1,
                 },
+
+function numPointsScored(playerName) {
+               for (const teamKey in gameObject) {
+               const team = gameObject[teamKey];
+               for (const player of team.players) {
+               if (player.name === playerName) {
+               return player.points;
+      }
+    }
+  }
+} 
+
+function teamColors(teamName) {
+    const game = gameObject();
+    for (const teamKey in game) {
+        const team = game[teamKey];
+        if (team.teamName === teamName) {
+            return team.colors;
+        }
+    }
+}
+
+function teamNames() {
+    const game = gameObject();
+    return [game.home.teamName, game.away.teamName];
+}
+
+function playerNumbers(teamName) {
+    const game = gameObject();
+    const numbers = [];
+    for (const teamKey in game) {
+        const team = game[teamKey];
+        if (team.teamName === teamName) {
+            for (const playerName in team.players) {
+                numbers.push(team.players[playerName].number);
+            }
+        }
+    }
+    return numbers;
+}
+
+function playerStats(playerName) {
+    const game = gameObject();
+    for (const teamKey in game) {
+        const team = game[teamKey];
+        if (team.players[playerName]) {
+            return team.players[playerName];
+        }
+    }
+}
+
+function bigShoeRebounds() {
+    const game = gameObject();
+    let maxShoeSize = 0;
+    let reboundsForBigShoe = 0;
+
+    for (const teamKey in game) {
+        const team = game[teamKey];
+        for (const playerName in team.players) {
+            const player = team.players[playerName];
+            if (player.shoe > maxShoeSize) {
+                maxShoeSize = player.shoe;
+                reboundsForBigShoe = player.rebounds;
+            }
+        }
+    }
+
+    return reboundsForBigShoe;
+}
+
                 "Reggie Evens": {
                     number: 30,
                     shoe: 14,
@@ -114,3 +184,14 @@ function gameObject() {
         },
     };
 }
+
+module.exports = {
+    gameObject,
+    numPointsScored,
+    shoeSize,
+    teamColors,
+    teamNames,
+    playerNumbers,
+    playerStats,
+    bigShoeRebounds,
+};
